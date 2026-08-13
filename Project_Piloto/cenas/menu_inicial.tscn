@@ -1,0 +1,186 @@
+[gd_scene format=3 uid="uid://0uoky5nt55sq"]
+
+[ext_resource type="Script" uid="uid://dq4ioun3dnep5" path="res://scripts/menu_inicial.gd" id="1_omb8n"]
+[ext_resource type="Texture2D" uid="uid://dr76xm84fv3kx" path="res://assets/menu/Clouds 3/1.png" id="2_02fs0"]
+[ext_resource type="AudioStream" uid="uid://gl3u18hfadcs" path="res://assets/audios/KOAN Sound - Sentient - KOAN Sound (youtube).mp3" id="2_omb8n"]
+[ext_resource type="Texture2D" uid="uid://pckqgi6ha3tc" path="res://assets/menu/Clouds 3/2.png" id="3_d5l37"]
+[ext_resource type="Texture2D" uid="uid://luttg8fjtscv" path="res://assets/menu/Clouds 3/3.png" id="4_23omm"]
+[ext_resource type="Texture2D" uid="uid://cqupkbtsc7er8" path="res://assets/menu/Clouds 3/4.png" id="5_8mewt"]
+[ext_resource type="Script" uid="uid://b86yqenmgb88x" path="res://scripts/janela_config.gd" id="7_d5l37"]
+
+[node name="MenuInicial" type="Control" unique_id=2019606029]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_omb8n")
+
+[node name="Fundo" type="TextureRect" parent="." unique_id=819669197]
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 647.0
+texture = ExtResource("2_02fs0")
+
+[node name="TextureRect" type="TextureRect" parent="Fundo" unique_id=397102827]
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 647.0
+texture = ExtResource("3_d5l37")
+
+[node name="TextureRect2" type="TextureRect" parent="Fundo" unique_id=484129182]
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 647.0
+texture = ExtResource("4_23omm")
+
+[node name="TextureRect3" type="TextureRect" parent="Fundo" unique_id=2134980336]
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 647.0
+texture = ExtResource("5_8mewt")
+
+[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=745226099]
+stream = ExtResource("2_omb8n")
+volume_db = -6.0
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="BotoesPrincipais" type="MarginContainer" parent="." unique_id=321091057]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -25.5
+offset_right = 20.0
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PainelPrincipal" type="VBoxContainer" parent="BotoesPrincipais" unique_id=819644475]
+layout_mode = 2
+
+[node name="TituloDoJogo" type="Label" parent="BotoesPrincipais/PainelPrincipal" unique_id=570867307]
+layout_mode = 2
+text = "AIVA'S WORLD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Espaçamento" type="Control" parent="BotoesPrincipais/PainelPrincipal" unique_id=527813101]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="BotaoJogar" type="Button" parent="BotoesPrincipais/PainelPrincipal" unique_id=1523570920 groups=["button"]]
+layout_mode = 2
+text = "JOGAR"
+
+[node name="BotaoConfig" type="Button" parent="BotoesPrincipais/PainelPrincipal" unique_id=60087939 groups=["button"]]
+layout_mode = 2
+text = "CONFIGURAÇÕES"
+
+[node name="BotaoSair" type="Button" parent="BotoesPrincipais/PainelPrincipal" unique_id=1142671392 groups=["button"]]
+layout_mode = 2
+text = "SAIR"
+
+[node name="JanelaConfig" type="PanelContainer" parent="." unique_id=1643940387]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.5
+offset_top = -52.5
+offset_right = 70.5
+offset_bottom = 52.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_d5l37")
+
+[node name="Margem" type="MarginContainer" parent="JanelaConfig" unique_id=1027394161]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LayoutVertical" type="VBoxContainer" parent="JanelaConfig/Margem" unique_id=1993133939]
+layout_mode = 2
+
+[node name="TituloConfig" type="Label" parent="JanelaConfig/Margem/LayoutVertical" unique_id=1937323767]
+layout_mode = 2
+text = "AJUSTES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Espacador1" type="Control" parent="JanelaConfig/Margem/LayoutVertical" unique_id=286659482]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="SecaoAudio" type="VBoxContainer" parent="JanelaConfig/Margem/LayoutVertical" unique_id=1820424568]
+layout_mode = 2
+
+[node name="LabelAudio" type="Label" parent="JanelaConfig/Margem/LayoutVertical/SecaoAudio" unique_id=1910020553]
+layout_mode = 2
+text = "Vol. Geral"
+
+[node name="SliderVolumeGeral" type="HSlider" parent="JanelaConfig/Margem/LayoutVertical/SecaoAudio" unique_id=467946539]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LabelAudio2" type="Label" parent="JanelaConfig/Margem/LayoutVertical/SecaoAudio" unique_id=1810961962]
+layout_mode = 2
+text = "Vol. Musica"
+
+[node name="SliderMusica" type="HSlider" parent="JanelaConfig/Margem/LayoutVertical/SecaoAudio" unique_id=1009484941]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SecaoVideo" type="HBoxContainer" parent="JanelaConfig/Margem/LayoutVertical" unique_id=28490761]
+layout_mode = 2
+
+[node name="LabelTelaCheia" type="Label" parent="JanelaConfig/Margem/LayoutVertical/SecaoVideo" unique_id=1464873451]
+layout_mode = 2
+
+[node name="CheckBoxTelaCheia" type="CheckBox" parent="JanelaConfig/Margem/LayoutVertical/SecaoVideo" unique_id=1548314592]
+layout_mode = 2
+button_pressed = true
+
+[node name="Espacador2" type="Control" parent="JanelaConfig/Margem/LayoutVertical" unique_id=1833813470]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="BotaoVoltar" type="Button" parent="JanelaConfig/Margem/LayoutVertical" unique_id=1203843763 groups=["button"]]
+layout_mode = 2
+text = "VOLTAR"
+
+[node name="MadeBy" type="HBoxContainer" parent="." unique_id=124634349]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -110.5
+offset_top = -40.0
+offset_right = 110.5
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Creditos" type="Label" parent="MadeBy" unique_id=1581574764]
+layout_mode = 2
+text = "Feito por:"
+
+[node name="Button" type="Button" parent="MadeBy" unique_id=514752371 groups=["button"]]
+layout_mode = 2
+text = "Saga dos Mundos"

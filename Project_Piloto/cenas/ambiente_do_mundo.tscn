@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://cky586e5sbde2"]
+
+[ext_resource type="Texture2D" uid="uid://dvv7muop5b4mn" path="res://assets/models/1.png" id="1_jl7pe"]
+[ext_resource type="Script" uid="uid://bd4rhgvqi2620" path="res://scripts/day_night.gd" id="2_jl7pe"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_i84ko"]
+night_sky = ExtResource("1_jl7pe")
+
+[sub_resource type="Sky" id="Sky_85rg4"]
+sky_material = SubResource("PhysicalSkyMaterial_i84ko")
+
+[sub_resource type="Environment" id="Environment_b8qvo"]
+background_mode = 2
+sky = SubResource("Sky_85rg4")
+
+[node name="ambiente_do_mundo" type="Node3D" unique_id=1316061759]
+
+[node name="Evironment" type="Node" parent="." unique_id=1687742302]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Evironment" unique_id=1535405525]
+environment = SubResource("Environment_b8qvo")
+
+[node name="SunContainer" type="Node3D" parent="Evironment" unique_id=1818302981]
+transform = Transform3D(-4.371139e-08, -1, 0, -1, 4.371139e-08, 8.742278e-08, -8.742278e-08, 3.821371e-15, -1, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Evironment/SunContainer" unique_id=52645156]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+shadow_enabled = true
+
+[node name="DayNight" type="Node" parent="Evironment" unique_id=1180161767 node_paths=PackedStringArray("sun_light", "world_environment", "debug_label")]
+script = ExtResource("2_jl7pe")
+sun_light = NodePath("../SunContainer/DirectionalLight3D")
+world_environment = NodePath("../WorldEnvironment")
+debug_label = NodePath("DayNightLabel")
+
+[node name="DayNightLabel" type="Label" parent="Evironment/DayNight" unique_id=1655330613]
+offset_right = 40.0
+offset_bottom = 23.0

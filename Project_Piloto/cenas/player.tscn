@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://hgmknqhjt4vo"]
+
+[ext_resource type="Animation" uid="uid://cjanyldlgl8yt" path="res://assets/models/player/Idle.res" id="2_kthid"]
+[ext_resource type="PackedScene" uid="uid://v3lh1a5furkx" path="res://assets/models/player/ninjaEMIT_root.glb" id="2_unwft"]
+[ext_resource type="Animation" uid="uid://b5qb06gjnq038" path="res://assets/models/player/Jog_Fwd.res" id="3_xojfc"]
+[ext_resource type="Animation" uid="uid://nuhkasqrgfww" path="res://assets/models/player/Jump.res" id="4_15dsx"]
+[ext_resource type="Animation" uid="uid://vjdk56cfhldp" path="res://assets/models/player/Walk.res" id="5_15dsx"]
+
+[sub_resource type="GDScript" id="GDScript_unwft"]
+resource_name = "Player"
+script/source = "extends CharacterBody3D
+
+# Referências
+@onready var camera_pivot: Node3D = $CameraPivot
+@onready var skin: Node3D = $ninja
+@onready var anim_player: AnimationPlayer = $AnimationPlayer # Referência ao AnimationPlayer
+
+# Configurações de Movimento
+const SPEED = 10.0
+const JUMP_VELOCITY = 4.5
+const ACCELERATION = 15.0
+
+@export var mouse_sensitivity: float = 0.003
+@export var min_pitch: float = -35.0
+@export var max_pitch: float = 20.0
+
+var last_movement_dir: Vector3 = Vector3.BACK
+
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _physics_process(delta: float) -> void:
+	# 1. Gravidade e Pulo
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# 2. Direção do Movimento
+	var input_dir: Vector2 = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
+	var main_camera: Camera3D = get_viewport().get_camera_3d()
+	
+	var direction: Vector3 = Vector3.ZERO
+	if main_camera and input_dir != Vector2.ZERO:
+		var forward: Vector3 = main_camera.global_transform.basis.z
+		var right: Vector3 = main_camera.global_transform.basis.x
+		
+		direction = (forward * input_dir.y + right * input_dir.x).normalized()
+		direction.y = 0.0
+
+	# 3. Aplicação do Movimento
+	var y_velocity = velocity.y
+	velocity.y = 0.0
+	
+	if direction != Vector3.ZERO:
+		velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
+	else:
+		velocity = velocity.move_toward(Vector3.ZERO, ACCELERATION * delta)
+		
+	velocity.y = y_velocity
+
+	# 4. Rotação do Modelo
+	if direction.length() > 0.1:
+		last_movement_dir = direction
+		
+	var target_angle = Vector3.BACK.signed_angle_to(last_movement_dir, Vector3.UP)
+	skin.global_rotation.y = lerp_angle(skin.global_rotation.y, target_angle, ACCELERATION * delta)
+
+	move_and_slide()
+
+	# 5. TROCA DE ANIMAÇÕES
+	var anim_suffix = \"\"
+	var is_moving = Vector3(velocity.x, 0, velocity.z).length() > 0.5
+
+	if not is_on_floor():
+		anim_suffix = \"Jump\"
+	elif is_moving:
+		anim_suffix = \"Jog_Fwd\" if anim_player.has_animation(\"Jog_Fwd\") or _has_anim_ending_with(\"Jog_Fwd\") else \"Walk\"
+	else:
+		anim_suffix = \"Idle\"
+
+	_play_anim(anim_suffix)
+
+# Função auxiliar para rodar a animação mesmo com prefixo de biblioteca
+func _play_anim(anim_name: String) -> void:
+	for a in anim_player.get_animation_list():
+		if a == anim_name or a.ends_with(\"/\" + anim_name):
+			if anim_player.current_animation != a:
+				anim_player.play(a)
+			return
+
+func _has_anim_ending_with(anim_name: String) -> bool:
+	for a in anim_player.get_animation_list():
+		if a == anim_name or a.ends_with(\"/\" + anim_name):
+			return true
+	return false
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlbwr"]
+radius = 0.5727539
+height = 1.5847168
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xojfc"]
+_data = {
+&"Idle": ExtResource("2_kthid"),
+&"Jog_Fwd": ExtResource("3_xojfc"),
+&"Jump": ExtResource("4_15dsx"),
+&"Walk": ExtResource("5_15dsx")
+}
+
+[node name="Player" type="CharacterBody3D" unique_id=1944827621]
+collision_layer = 2
+script = SubResource("GDScript_unwft")
+
+[node name="ninja" parent="." unique_id=1999682953 instance=ExtResource("2_unwft")]
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=349231186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79504395, 0)
+shape = SubResource("CapsuleShape3D_qlbwr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=463660509]
+libraries/ = SubResource("AnimationLibrary_xojfc")
+
+[editable path="ninja"]

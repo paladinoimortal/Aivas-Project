@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bpqdqmufbjaw1"]
+
+[ext_resource type="Script" uid="uid://dxjd7574aoq7w" path="res://scripts/camera_pivot.gd" id="2_flbpx"]
+[ext_resource type="Script" uid="uid://dxypvgvoqn4on" path="res://scripts/porta.gd" id="2_j53mh"]
+[ext_resource type="PackedScene" uid="uid://dfyt277tcxkwa" path="res://cenas/pause_menu.tscn" id="3_73jef"]
+[ext_resource type="PackedScene" uid="uid://cky586e5sbde2" path="res://cenas/ambiente_do_mundo.tscn" id="5_j53mh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j53mh"]
+size = Vector3(1, 1.7, 1.5)
+
+[node name="Casa0" type="Node3D" unique_id=308764342]
+
+[node name="Porta" type="Area3D" parent="." unique_id=1334177066]
+script = ExtResource("2_j53mh")
+proxima_cena = "uid://b7s5iby8brp3u"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Porta" unique_id=882849965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 3.5)
+shape = SubResource("BoxShape3D_j53mh")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=702957707]
+script = ExtResource("2_flbpx")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=474697393]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 1, 2)
+fov = 50.0
+
+[node name="PauseMenu" parent="." unique_id=151131273 instance=ExtResource("3_73jef")]
+
+[node name="AmbienteDoMundo" parent="." unique_id=1819492850 instance=ExtResource("5_j53mh")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=480907060]
+transform = Transform3D(0.8660254, -0.35355338, 0.35355338, 0, 0.70710677, 0.70710677, -0.5, -0.6123724, 0.6123724, 0, 2.6054993, 0)
+light_color = Color(1, 1, 0.42352942, 1)
+light_indirect_energy = 5.0
+shadow_enabled = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1362584864]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+light_color = Color(1, 1, 0.7058824, 1)
+shadow_enabled = true
+omni_range = 8.0

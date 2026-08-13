@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cvjceolmqat4g"]
+
+[ext_resource type="Texture2D" uid="uid://4m1wf1vyggpk" path="res://assets/map/mapa_1.png" id="1_i3ss7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i84ko"]
+albedo_texture = ExtResource("1_i3ss7")
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qlbwr"]
+material = SubResource("StandardMaterial3D_i84ko")
+
+[node name="Node3D" type="Node3D" unique_id=1661960570]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1971454301]
+transform = Transform3D(3840, 0, 0, 0, 1, 0, 0, 0, 2150, 0, 0, 0)
+mesh = SubResource("PlaneMesh_qlbwr")
